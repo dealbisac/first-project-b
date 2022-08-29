@@ -11,10 +11,17 @@ const Todo = () => {
     ]);
 
     console.log(input)
+    console.log(todos)
 
-    function handleSubmit(){
-        setTodos(input)
-        console.log(setTodos(input))
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     setTodos([...todos, input])
+    //     setInput('')
+    // }
+
+    function handleSubmit() {
+        setTodos([...todos, input])
+        setInput('')  
     }
 
     return (
@@ -37,7 +44,8 @@ const Todo = () => {
                         className="button"
                         name="button"
                         value="Add Todo" 
-                        onSubmit={handleSubmit}
+                        disabled={!input}
+                        onClick={handleSubmit}
                     />
                 </form>
             </div>
