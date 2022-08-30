@@ -13,16 +13,16 @@ const Todo = () => {
     console.log(input)
     console.log(todos)
 
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     setTodos([...todos, input])
-    //     setInput('')
-    // }
-
-    function handleSubmit() {
+    const handleSubmit = (event) => {
+        event.preventDefault();
         setTodos([...todos, input])
-        setInput('')  
+        setInput('')
     }
+
+    // function handleSubmit() {
+    //     setTodos([...todos, input])
+    //     setInput('')  
+    // }
 
     return (
         <div className='todo'>
