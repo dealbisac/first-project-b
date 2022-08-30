@@ -1,66 +1,139 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import './Todo.css'
 
+import { IoIosCheckmarkCircle } from 'react-icons/io';
+import { MdDeleteForever } from 'react-icons/md';
+import { FiCircle } from 'react-icons/fi';
+
 const Todo = () => {
-    const [input, setInput] = useState('');
-    const [todos, setTodos] = useState([
-        'Take a walk.',
-        'Make a presentation.',
-        'Cook food.',
-        'Feed the dog.'
-    ]);
+	const [todos, setTodos] = useState([]);
+	const [todoItem, setTodoItem] = useState('');
+	const [error, setError] = useState(false);
+	const [completedTasks, setCompletedTasks] = useState('');
 
-    console.log(input)
-    console.log(todos)
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (todoItem) {
+			setError(false);
+			let uniqueId =
+				new Date().getTime().toString(36) + new Date().getUTCMilliseconds();
+			let newTodoItem = {
+				id: uniqueId,
+				todo: todoItem,
+				complete: false,
+			};
+			setTodos([newTodoItem, ...todos]);
+			setTodoItem('');
+		} else {
+			setError(true);
+			setTodoItem('');
+		}
+	};
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setTodos([...todos, input])
-        setInput('')
-    }
+	const deleteTodo = (id) => {
+		let newTodos = todos.filter((todo) => todo.id !== id);
+		setTodos([...newTodos]);
+	};
 
-    // function handleSubmit() {
-    //     setTodos([...todos, input])
-    //     setInput('')  
-    // }
+	const toggleComplete = (id) => {
+		todos.find((todo) => {
+			if (todo.id === id) {
+				todo.complete = !todo.complete;
+			}
+			return setTodos([...todos]);
+		});
+	};
 
-    return (
-        <div className='todo'>
-            <div className="todo-logo">
-                <h3>Todo App</h3>
-            </div>
+	useEffect(() => {
+		let completeArray = [];
+		todos.filter((todo) => todo.complete === true && completeArray.push(todo));
+		setCompletedTasks(completeArray.length);
+	}, [todos]);
 
-            <div className="todo-form">
-                <form>
-                    <input
-                        type="text"
-                        className="task"
-                        name="input"
-                        value={input}
-                        onChange={ e => setInput(e.target.value)}
-                    />
-                    <input
-                        type="submit"
-                        className="button"
-                        name="button"
-                        value="Add Todo" 
-                        disabled={!input}
-                        onClick={handleSubmit}
-                    />
-                </form>
-            </div>
+	useEffect(() => {
+		const todos = JSON.parse(localStorage.getItem('todos'));
+		if (todos) {
+			setTodos(todos);
+		}
+	}, []);
 
-            <div className="todo-lists">
-                <h3>Task Lists</h3>
-                <ul>
-                    {todos.map((todo) => (
-                        <li>{todo}</li>
-                    ))
-                    }
-                </ul>
-            </div>
-        </div>
-    )
-}
+	useEffect(() => {
+		let adderror = setTimeout(() => {
+			setError(false);
+		}, 2000);
+		return () => {
+			clearTimeout(adderror);
+		};
+	}, [error]);
 
-export default Todo
+	useEffect(() => {
+		localStorage.setItem('todos', JSON.stringify(todos));
+	}, [todos]);
+
+	let Today = new Date().toLocaleDateString('en-us', { weekday: 'long' });
+	let day = new Date().toLocaleDateString('en-us', { day: 'numeric' });
+	let month = new Date().toLocaleDateString('en-us', { month: 'short' });
+
+	return (
+		<div className="app-container">
+			<div className="header-section">
+				<h4 className="date">
+					{`${Today},`} <span>{`${day} ${month}`}</span>
+				</h4>
+				<div className="app-form-container">
+					<form onSubmit={handleSubmit}>
+						<input
+							type="text"
+							value={todoItem}
+							className={error ? 'error' : ''}
+							onChange={(e) => setTodoItem(e.target.value)}
+							placeholder="Type Todo here..."
+						/>
+						<button type="submit" className="btn">
+							Add Todo
+						</button>
+					</form>
+				</div>
+				<div className="data-card-container">
+					<div className="data-card">
+						<h5>{todos.length < 10 ? `0${todos.length}` : todos.length}</h5>
+						<p>Created tasks</p>
+					</div>
+					<div className="data-card">
+						<h5>
+							{completedTasks < 10 ? `0${completedTasks}` : completedTasks}
+						</h5>
+						<p>Completed tasks</p>
+					</div>
+				</div>
+			</div>
+			<div className="todo-container">
+				{todos.map((todoItem) => {
+					const { id, todo, complete } = todoItem;
+					return (
+						<div key={id} className="todo-card">
+							<div className="icon" onClick={() => toggleComplete(id)}>
+								{!complete ? (
+									<FiCircle />
+								) : (
+									<IoIosCheckmarkCircle
+										className={complete ? 'icon-done' : ''}
+									/>
+								)}
+							</div>
+							<p className={complete ? 'text-done' : ''}>{todo}</p>
+							<MdDeleteForever
+								onClick={() => deleteTodo(id)}
+								className="icon delete-icon"
+							/>
+						</div>
+					);
+				})}
+			</div>
+		</div>
+	);
+};
+
+export default Todo;
+
+// ref: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
