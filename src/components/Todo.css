@@ -38,3 +38,22 @@
     list-style: none;
     margin-top: 20px;
 }
+
+.update {
+    color: #143acd;
+    margin: 0 10px;
+}
+
+.delete {
+    color: #f00;
+    margin: 0 10px;
+}
+
+.todo-removeall > button {
+    padding: 10px 30px;
+    color: #fff;
+    background-color: red;
+    outline: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
