@@ -3,7 +3,7 @@ import './Todo.css'
 
 const Todo = () => {
 	const [input, setInput] = useState('');
-	const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')));
+	const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || []);
 
 	console.log(input)
 	console.log(todos)
