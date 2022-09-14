@@ -41,10 +41,12 @@ const TodoFirebase = () => {
     }
 
     //UPDATE: Update the individual items in the array having index
-    const updateTodo = () => {
-        db.collection('todos').doc(todos.id).set({
-        }, { merge: true })
-    }
+    // function updateTodo(todo) {
+    //     db.collection('todos').doc(todo.id).set({
+    //         id: todos.id,
+    //         todo: input
+    //     }, { merge: true })
+    // }
 
     //DELETE: Delete the individual items in the array having index
     // function deleteTodo(){
@@ -91,13 +93,20 @@ const TodoFirebase = () => {
                             <li>{todo.todo}</li>
                             <button
                                 className='update'
-                                onClick={updateTodo}
+                                onClick={event => 
+                                    db.collection('todos').doc(todo.id).set({
+                                        todo: input
+                                    }, { merge: true })
+                                }
                             >
                                 Update
                             </button>
                             <button
                                 className='delete'
-                                onClick={event => db.collection('todos').doc(todo.id).delete()}
+                                onClick={event => 
+                                    db.collection('todos')
+                                    .doc(todo.id).delete()
+                                }
                             >
                                 Delete
                             </button>
@@ -105,26 +114,6 @@ const TodoFirebase = () => {
                     </ul>
                 ))}
             </div>
-            {/* <ul>
-                    {todos.map((todo) => (
-                        <li>
-                            {todo}
-                            <button
-                                className='update'
-                                onClick={() => updateTodo(todos.indexOf(todo))}
-                            >
-                                Update
-                            </button>
-                            <button
-                                className='delete'
-                                onClick={() => deleteTodo(todos.indexOf(todo))}
-                            >
-                                Delete
-                            </button>
-                        </li>
-                    ))
-                    }
-                </ul> */}
 
             <div className="todo-removeall">
                 <button
