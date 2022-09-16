@@ -1,0 +1,71 @@
+/* Language: css */
+/* Path: src\components\Counter.css */
+.counter {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    margin-top: 4rem;
+}
+
+.counter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.counter-container > * {
+    margin: 0.5rem;
+}
+
+.counter-value {
+    font-size: 2rem;
+}
+
+.counter-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.counter-button {
+    border: 1px solid #000;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin: 0 0.5rem;
+}
+
+.counter-button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.counter-button:active {
+    background-color: #000;
+    color: #fff;
+}
+
+.counter-button:disabled {
+    background-color: #ccc;
+    color: #000;
+    cursor: not-allowed;
+}
+
+.increment {
+    background-color: #00ff00;
+}
+
+.decrement {
+    background-color: #ff0000;
+}
+
+.reset {
+    background-color: #0000ff;
+}
+
+.counter-message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color : #f00;
+}
