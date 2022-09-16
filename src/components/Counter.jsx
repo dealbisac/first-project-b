@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './Counter.css'
 
 const Counter = () => {
@@ -9,20 +9,23 @@ const Counter = () => {
     // Increase the value of the count
     function increaseValue() {
         setCount(count + 1);
+        setMessage('');
     }
 
     // Decrease the value of the count
     function decreaseValue() {
-        if(count === 0) {
+        if (count === 0) {
             setMessage('Count cannot be less than 0');
         } else {
-        setCount(count - 1)
+            setCount(count - 1)
+            setMessage('');
         }
     }
 
     // Reset the value of the count
     function resetValue() {
         setCount(0);
+        setMessage('');
     }
 
 
