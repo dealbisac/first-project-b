@@ -1,10 +1,12 @@
 import './App.css';
-import Todo from './components/Todo'
+// import Todo from './components/Todo';
+import Register from './components/Register';
 
 function App() {
   return (
     <div className="App">
-      <Todo />
+      {/* <Todo /> */}
+      <Register />
     </div>
   );
 }
